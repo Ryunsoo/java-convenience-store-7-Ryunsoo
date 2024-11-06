@@ -1,10 +1,10 @@
 package store.domain.product;
 
-public class Name {
+public class ProductName {
 
     private final String name;
 
-    public Name(String name) {
+    public ProductName(String name) {
         validate(name);
         this.name = name;
     }
