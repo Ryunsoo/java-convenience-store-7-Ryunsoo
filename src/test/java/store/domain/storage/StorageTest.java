@@ -43,4 +43,13 @@ class StorageTest {
         assertThat(storage).extracting("basicStock").isEqualTo(new Stock(0));
     }
 
+    @DisplayName("일반 재고만 갖는 저장소는 프로모션은 null, 프로모션 재고는 0 이다.")
+    @Test
+    void createStorageWithOnlyBasicStock() {
+        Storage storage = Storage.onlyBasic(new Stock(5));
+
+        assertThat(storage).extracting("promotion", "promotionStock")
+                .containsExactly(null, new Stock(0));
+    }
+
 }

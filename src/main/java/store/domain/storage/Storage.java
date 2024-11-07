@@ -22,4 +22,9 @@ public class Storage {
     public static Storage onlyPromotion(Promotion promotion, Stock promotionStock) {
         return new Storage(promotion, new Stock(0), promotionStock);
     }
+
+    public static Storage onlyBasic(Stock basicStock) {
+        return new Storage(null, basicStock, new Stock(0));
+    }
+
 }
