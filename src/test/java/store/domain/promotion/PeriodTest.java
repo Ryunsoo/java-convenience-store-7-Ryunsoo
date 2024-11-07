@@ -5,11 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import store.domain.common.Name;
-import store.domain.product.Price;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +23,7 @@ class PeriodTest {
         Period period = Period.between(start, end);
 
         assertThat(period).extracting("start", "end")
-                .isEqualTo(List.of(start, end));
+                .containsExactly(start, end);
     }
 
     @DisplayName("종료 날짜가 시작 날짜보다 이전이면 예외를 던진다.")
