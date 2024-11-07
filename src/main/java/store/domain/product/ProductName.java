@@ -1,5 +1,7 @@
 package store.domain.product;
 
+import java.util.Objects;
+
 public class ProductName {
 
     private final String name;
@@ -15,4 +17,16 @@ public class ProductName {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductName name1 = (ProductName) o;
+        return Objects.equals(name, name1.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
+    }
 }
