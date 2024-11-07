@@ -18,4 +18,8 @@ public class Storage {
     public static Storage with(Promotion promotion, Stock basicStock, Stock promotionStock) {
         return new Storage(promotion, basicStock, promotionStock);
     }
+
+    public static Storage onlyPromotion(Promotion promotion, Stock promotionStock) {
+        return new Storage(promotion, new Stock(0), promotionStock);
+    }
 }
