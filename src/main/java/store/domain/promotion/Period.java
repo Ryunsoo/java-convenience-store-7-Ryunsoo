@@ -14,8 +14,17 @@ public class Period {
     }
 
     private void validate(LocalDate start, LocalDate end) {
+        validate(start);
+        validate(end);
+
         if (end.isBefore(start)) {
             throw new IllegalArgumentException("기간 날짜 범위가 올바르지 않습니다.");
+        }
+    }
+
+    private void validate(LocalDate date) {
+        if (date == null) {
+            throw new IllegalArgumentException("기간 날짜 정보가 올바르지 않습니다.");
         }
     }
 
