@@ -1,19 +1,19 @@
-package store.domain.product;
+package store.domain.common;
 
 import java.util.Objects;
 
-public class ProductName {
+public class Name {
 
     private final String name;
 
-    public ProductName(String name) {
+    public Name(String name) {
         validate(name);
         this.name = name;
     }
 
     private void validate(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("상품명이 올바르지 않습니다.");
+            throw new IllegalArgumentException("이름이 올바르지 않습니다.");
         }
     }
 
@@ -21,7 +21,7 @@ public class ProductName {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductName name1 = (ProductName) o;
+        Name name1 = (Name) o;
         return Objects.equals(name, name1.name);
     }
 

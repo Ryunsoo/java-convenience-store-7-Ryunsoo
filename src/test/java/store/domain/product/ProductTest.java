@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import store.domain.common.Name;
 
 import java.util.stream.Stream;
 
@@ -16,7 +17,7 @@ class ProductTest {
     @DisplayName("상품명과 가격으로 상품을 생성할 수 있다.")
     @Test
     void createProductWithNameAndPrice() {
-        ProductName name = new ProductName("상품명");
+        Name name = new Name("상품명");
         Price price = Price.valueOf(1000);
 
         Product product = new Product(name, price);
@@ -27,7 +28,7 @@ class ProductTest {
     @DisplayName("상품명 또는 가격이 null 이면 예외를 던진다.")
     @ParameterizedTest
     @MethodSource("provideInvalidNameOrPrice")
-    void productShouldHaveNameAndPrice(ProductName name, Price price) {
+    void productShouldHaveNameAndPrice(Name name, Price price) {
         assertThatThrownBy(() -> new Product(name, price))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("상품 생성에 실패했습니다.");
@@ -36,7 +37,7 @@ class ProductTest {
     private static Stream<Arguments> provideInvalidNameOrPrice() {
         return Stream.of(
                 Arguments.of(null, Price.valueOf(1000)),
-                Arguments.of(new ProductName("이름"), null),
+                Arguments.of(new Name("이름"), null),
                 Arguments.of(null, null)
         );
     }
@@ -44,8 +45,8 @@ class ProductTest {
     @DisplayName("상품명과 가격이 동일하면 같은 상품이다.")
     @Test
     void equalsByNameAndPrice() {
-        Product product1 = new Product(new ProductName("이름"), Price.valueOf(1000));
-        Product product2 = new Product(new ProductName("이름"), Price.valueOf(1000));
+        Product product1 = new Product(new Name("이름"), Price.valueOf(1000));
+        Product product2 = new Product(new Name("이름"), Price.valueOf(1000));
 
         assertThat(product1).isEqualTo(product2);
     }
@@ -60,14 +61,14 @@ class ProductTest {
     private static Stream<Arguments> provideDifferentProducts() {
         return Stream.of(
                 Arguments.of(
-                        new Product(new ProductName("상품1"), Price.valueOf(1000)),
-                        new Product(new ProductName("상품2"), Price.valueOf(1000))),
+                        new Product(new Name("상품1"), Price.valueOf(1000)),
+                        new Product(new Name("상품2"), Price.valueOf(1000))),
                 Arguments.of(
-                        new Product(new ProductName("이름"), Price.valueOf(1000)),
-                        new Product(new ProductName("이름"), Price.valueOf(2000))),
+                        new Product(new Name("이름"), Price.valueOf(1000)),
+                        new Product(new Name("이름"), Price.valueOf(2000))),
                 Arguments.of(
-                        new Product(new ProductName("상품1"), Price.valueOf(2000)),
-                        new Product(new ProductName("상품2"), Price.valueOf(1000)))
+                        new Product(new Name("상품1"), Price.valueOf(2000)),
+                        new Product(new Name("상품2"), Price.valueOf(1000)))
         );
     }
 

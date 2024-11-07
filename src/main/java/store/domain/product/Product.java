@@ -1,13 +1,15 @@
 package store.domain.product;
 
+import store.domain.common.Name;
+
 import java.util.Objects;
 
 public class Product {
 
-    private final ProductName name;
+    private final Name name;
     private final Price price;
 
-    public Product(ProductName name, Price price) {
+    public Product(Name name, Price price) {
         validate(name);
         validate(price);
         this.name = name;
