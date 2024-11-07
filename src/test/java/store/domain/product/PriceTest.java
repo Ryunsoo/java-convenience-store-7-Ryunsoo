@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PriceTest {
 
@@ -16,6 +17,14 @@ class PriceTest {
 
         BigDecimal expected = BigDecimal.valueOf(1000);
         assertThat(price).extracting("price").isEqualTo(expected);
+    }
+
+    @DisplayName("가격이 0 미만일 경우 예외를 던진다.")
+    @Test
+    void priceCannotHasValueBelowZero() {
+        assertThatThrownBy(() -> Price.valueOf(-1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("가격이 올바르지 않습니다.");
     }
 
 }
