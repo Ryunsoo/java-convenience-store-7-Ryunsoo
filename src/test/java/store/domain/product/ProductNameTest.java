@@ -13,11 +13,9 @@ class ProductNameTest {
     @DisplayName("문자열로 상품명을 생성할 수 있다.")
     @Test
     void createProductNameWithString() {
-        String string = "상품명";
+        ProductName name = new ProductName("상품명");
 
-        ProductName name = new ProductName(string);
-
-        assertThat(name).extracting("name").isEqualTo(string);
+        assertThat(name).extracting("name").isEqualTo("상품명");
     }
 
     @DisplayName("상품명이 null 또는 빈문자열이면 예외를 던진다.")
