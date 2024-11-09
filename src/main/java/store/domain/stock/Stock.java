@@ -6,7 +6,7 @@ public class Stock {
 
     private static final int MIN_QUANTITY = 0;
 
-    private final int quantity;
+    private int quantity;
 
     public Stock(int quantity) {
         validate(quantity);
@@ -17,6 +17,14 @@ public class Stock {
         if (quantity < MIN_QUANTITY) {
             throw new IllegalArgumentException("재고는 0 이상이어야 합니다.");
         }
+    }
+
+    public int available(int quantity) {
+        return Math.min(this.quantity, quantity);
+    }
+
+    public void deduct(int quantity) {
+        this.quantity -= quantity;
     }
 
     @Override

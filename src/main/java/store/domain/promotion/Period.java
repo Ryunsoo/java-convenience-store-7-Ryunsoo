@@ -1,6 +1,7 @@
 package store.domain.promotion;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Period {
 
@@ -32,4 +33,8 @@ public class Period {
         return new Period(start, end);
     }
 
+    public boolean within(LocalDateTime dateTime) {
+        LocalDate date = dateTime.toLocalDate();
+        return !date.isBefore(start) && !date.isAfter(end);
+    }
 }

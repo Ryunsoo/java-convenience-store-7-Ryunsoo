@@ -22,6 +22,10 @@ public class Product {
         }
     }
 
+    public boolean is(Name name) {
+        return this.name.equals(name);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -33,5 +37,13 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(name, price);
+    }
+
+    public Name name() {
+        return name;
+    }
+
+    public Price calculatePrice(int quantity) {
+        return price.multiple(quantity);
     }
 }
