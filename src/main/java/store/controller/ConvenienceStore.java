@@ -35,7 +35,7 @@ public class ConvenienceStore {
     public void open() {
         // 프로모션 로딩
         FileLineReader fileLineReader = new FileLineReader();
-        List<String> promotionLines = fileLineReader.readLine("promotions.md");
+        List<String> promotionLines = fileLineReader.readLines("promotions.md");
 
         List<Promotion> promotions = promotionLines.stream()
                 .skip(1)
@@ -45,7 +45,7 @@ public class ConvenienceStore {
                 .toList();
 
         // 상품 로딩
-        List<String> productLines = fileLineReader.readLine("products.md");
+        List<String> productLines = fileLineReader.readLines("products.md");
 
         List<ProductInfo> productInfos = productLines.stream()
                 .skip(1)

@@ -1,41 +1,33 @@
 package store.view;
 
-import java.io.*;
-import java.util.ArrayList;
+import store.exception.StoreSetUpFailException;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FileLineReader {
 
-    private final ClassLoader classLoader;
-
-    public FileLineReader() {
-        this.classLoader = getClass().getClassLoader();
-    }
-
-    public List<String> readLine(String fileName) {
-        List<String> fileLines = new ArrayList<>();
-        try (BufferedReader bufferedReader = getBufferedReader(fileName)) {
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                fileLines.add(line);
-            }
-
-            return fileLines;
-        } catch (IOException e) {
-            throw new RuntimeException("파일 읽기에 실패했습니다.");
+    public List<String> readLines(String fileName) {
+        try (Stream<String> lines = Files.lines(getFilePath(fileName))) {
+            return lines.toList();
+        } catch (IOException | URISyntaxException e) {
+            throw new StoreSetUpFailException("파일 읽기에 실패했습니다.");
         }
     }
 
-    private BufferedReader getBufferedReader(String fileName) throws IOException {
-        InputStream inputStream = classLoader.getResourceAsStream(fileName);
-        if (inputStream == null) {
-            throw new FileNotFoundException(fileName);
+    private Path getFilePath(String fileName) throws URISyntaxException {
+        final URL fileUrl = ClassLoader.getSystemResource(fileName);
+        if (fileUrl == null) {
+            throw new StoreSetUpFailException("파일을 읽을 수 없습니다.");
         }
-
-        InputStreamReader reader = new InputStreamReader(inputStream);
-        return new BufferedReader(reader);
-
+        URI fileUrlURI = fileUrl.toURI();
+        return Path.of(fileUrlURI);
     }
 
 }
