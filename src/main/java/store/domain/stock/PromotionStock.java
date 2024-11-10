@@ -2,7 +2,7 @@ package store.domain.stock;
 
 import store.domain.promotion.BenefitResult;
 import store.domain.promotion.Promotion;
-import store.domain.promotion.StockCheckResult;
+import store.domain.promotion.PromotionResult;
 
 import java.time.LocalDateTime;
 
@@ -19,15 +19,15 @@ public class PromotionStock extends ProductStock {
         return promotion.onGoing(dateTime);
     }
 
-    public StockCheckResult check(int quantity) {
+    public PromotionResult check(int quantity) {
         BenefitResult benefitResult = checkPromotion(quantity);
         int generalQuantity = quantity - benefitResult.getQuantity();
 
         if (stock.hasMore(quantity) && promotion.canGetOneMore(generalQuantity)) {
-            return StockCheckResult.morePromotion(benefitResult, generalQuantity);
+            return PromotionResult.morePromotion(benefitResult, generalQuantity);
         }
 
-        return StockCheckResult.withPromotion(benefitResult, generalQuantity);
+        return PromotionResult.withPromotion(benefitResult, generalQuantity);
     }
 
     private BenefitResult checkPromotion(int quantity) {

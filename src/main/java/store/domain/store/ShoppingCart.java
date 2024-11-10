@@ -1,4 +1,4 @@
-package store.domain.order;
+package store.domain.store;
 
 import store.domain.product.Product;
 

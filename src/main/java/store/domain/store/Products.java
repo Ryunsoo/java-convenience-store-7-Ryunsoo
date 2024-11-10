@@ -14,11 +14,24 @@ public class Products {
         this.productStocks = productStocks;
     }
 
+    public Product select(Name productName, int quantity) {
+        Product product = find(productName);
+        if (!hasStocks(product, quantity)) {
+            throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다.");
+        }
+        return product;
+    }
+
     public Product find(Name productName) {
         return productStocks.keySet().stream()
                 .filter(product -> product.is(productName))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+    }
+
+    public boolean hasStocks(Product product, int quantity) {
+        ProductStocks stocks = productStocks.get(product);
+        return stocks.hasEnough(quantity);
     }
 
     public ProductStocks getStocks(Product product) {

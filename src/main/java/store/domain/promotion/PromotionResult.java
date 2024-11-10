@@ -6,31 +6,31 @@ import store.domain.product.Product;
 
 import static store.domain.common.OrderStatus.*;
 
-public class StockCheckResult {
+public class PromotionResult {
 
     private final OrderStatus status;
     private final BenefitResult benefitResult;
     private final int generalQuantity;
 
-    private StockCheckResult(OrderStatus status, BenefitResult benefitResult, int generalQuantity) {
+    private PromotionResult(OrderStatus status, BenefitResult benefitResult, int generalQuantity) {
         this.status = status;
         this.benefitResult = benefitResult;
         this.generalQuantity = generalQuantity;
     }
 
-    public static StockCheckResult withoutPromotion(int quantity) {
-        return new StockCheckResult(DONE, new BenefitResult(0, 0), quantity);
+    public static PromotionResult withoutPromotion(int quantity) {
+        return new PromotionResult(DONE, new BenefitResult(0, 0), quantity);
     }
 
-    public static StockCheckResult morePromotion(BenefitResult benefitResult, int generalQuantity) {
-        return new StockCheckResult(ADD, benefitResult, generalQuantity);
+    public static PromotionResult morePromotion(BenefitResult benefitResult, int generalQuantity) {
+        return new PromotionResult(ADD, benefitResult, generalQuantity);
     }
 
-    public static StockCheckResult withPromotion(BenefitResult benefitResult, int generalQuantity) {
+    public static PromotionResult withPromotion(BenefitResult benefitResult, int generalQuantity) {
         if (generalQuantity > 0) {
-            return new StockCheckResult(REMOVE, benefitResult, generalQuantity);
+            return new PromotionResult(REMOVE, benefitResult, generalQuantity);
         }
-        return new StockCheckResult(DONE, benefitResult, generalQuantity);
+        return new PromotionResult(DONE, benefitResult, generalQuantity);
     }
 
     public boolean canAddMore() {

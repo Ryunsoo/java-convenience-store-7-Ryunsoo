@@ -1,6 +1,6 @@
 package store.domain.stock;
 
-import store.domain.promotion.StockCheckResult;
+import store.domain.promotion.PromotionResult;
 
 import java.time.LocalDateTime;
 
@@ -20,11 +20,11 @@ public class ProductStocks {
         return availableBasic + availablePromotion >= quantity;
     }
 
-    public StockCheckResult checkPromotion(LocalDateTime dateTime, int quantity) {
+    public PromotionResult checkPromotion(LocalDateTime dateTime, int quantity) {
         if (promotionStock.inPromotion(dateTime)) {
             return promotionStock.check(quantity);
         }
-        return StockCheckResult.withoutPromotion(quantity);
+        return PromotionResult.withoutPromotion(quantity);
     }
 
     public void deduct(LocalDateTime dateTime, int quantity) {
