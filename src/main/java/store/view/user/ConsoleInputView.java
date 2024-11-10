@@ -26,32 +26,44 @@ public class ConsoleInputView implements InputView {
 
     private PurchaseInfo parseToProductNameAndQuantity(String input) {
         try {
-            boolean startWithFormat = input.startsWith("[");
-            boolean endWithFormat = input.endsWith("]");
-
-            if (!startWithFormat || !endWithFormat) {
-                throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다.");
-            }
-
-            String[] nameAndQuantity = input
-                    .substring(1, input.length() - 1)
-                    .split("-");
-
-            if (nameAndQuantity.length != 2) {
-                throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다.");
-            }
+            validateProductInputFormat(input);
+            String[] nameAndQuantity = splitNameAndQuantity(input);
 
             String productName = nameAndQuantity[PRODUCT_NAME_INDEX];
-            int quantity = Integer.parseInt(nameAndQuantity[QUANTITY_INDEX]);
-
-            if (quantity < 1) {
-                throw new IllegalArgumentException("수량은 1개 이상으로 입력하세요.");
-            }
-
+            int quantity = parseQuantity(nameAndQuantity[QUANTITY_INDEX]);
             return new PurchaseInfo(productName, quantity);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다.");
         }
+    }
+
+    private void validateProductInputFormat(String input) {
+        boolean startWithFormat = input.startsWith("[");
+        boolean endWithFormat = input.endsWith("]");
+
+        if (!startWithFormat || !endWithFormat) {
+            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다.");
+        }
+    }
+
+    private String[] splitNameAndQuantity(String input) {
+        String[] nameAndQuantity = input
+                .substring(1, input.length() - 1)
+                .split("-");
+
+        if (nameAndQuantity.length != 2) {
+            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다.");
+        }
+        return nameAndQuantity;
+    }
+
+    private int parseQuantity(String input) {
+        int quantity = Integer.parseInt(input);
+
+        if (quantity < 1) {
+            throw new IllegalArgumentException("수량은 1개 이상으로 입력하세요.");
+        }
+        return quantity;
     }
 
     @Override

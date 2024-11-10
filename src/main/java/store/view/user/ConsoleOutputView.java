@@ -65,13 +65,29 @@ public class ConsoleOutputView implements OutputView {
         Price subtractPromotion = totalAmount.subtract(promotionAmount);
         Price payAmount = subtractPromotion.subtract(membershipDiscount);
 
-        System.out.printf("총구매액\t\t%d\t%s", orderSheets.totalQuantity(), totalAmount);
+        printTotal(orderSheets.totalQuantity(), totalAmount);
+        printPromotionDiscount(promotionAmount);
+        printMembershipDiscount(membershipDiscount);
+        printPayAmount(payAmount);
+    }
+
+    private void printTotal(int totalQuantity, Price totalAmount) {
+        System.out.printf("총구매액\t\t%d\t%s", totalQuantity, totalAmount);
         System.out.println();
-        System.out.printf("행사할인\t\t\t-%s", promotionAmount);
+    }
+
+    private void printPromotionDiscount(Price amount) {
+        System.out.printf("행사할인\t\t\t-%s", amount);
         System.out.println();
-        System.out.printf("멤버십할인\t\t\t-%s", membershipDiscount);
+    }
+
+    private void printMembershipDiscount(Price amount) {
+        System.out.printf("멤버십할인\t\t\t-%s", amount);
         System.out.println();
-        System.out.printf("내실돈\t\t\t %s", payAmount);
+    }
+
+    private void printPayAmount(Price amount) {
+        System.out.printf("내실돈\t\t\t %s", amount);
         System.out.println();
     }
 
