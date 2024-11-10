@@ -26,6 +26,10 @@ public class Product {
         return this.name.equals(name);
     }
 
+    public Price calculatePrice(int quantity) {
+        return price.multiple(quantity);
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -43,7 +47,7 @@ public class Product {
         return name;
     }
 
-    public Price calculatePrice(int quantity) {
-        return price.multiple(quantity);
+    public Price price() {
+        return price;
     }
 }

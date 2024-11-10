@@ -1,8 +1,11 @@
 package store.domain.stock;
 
+import store.domain.product.Product;
 import store.domain.promotion.PromotionResult;
+import store.view.dto.StockView;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProductStocks {
 
@@ -35,6 +38,16 @@ public class ProductStocks {
         }
         int deducted = basicStock.deductMaximum(quantity);
         promotionStock.deductMaximum(quantity - deducted);
+    }
+
+    public List<StockView> getStockViews(Product product) {
+        StockView basicStockView = basicStock.getView(product);
+
+        if (!(promotionStock instanceof EmptyPromotionStock)) {
+            StockView promotionStockView = promotionStock.getView(product);
+            return List.of(promotionStockView, basicStockView);
+        }
+        return List.of(basicStockView);
     }
 
 }

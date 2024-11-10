@@ -45,4 +45,8 @@ public class Promotion {
         return benefit.compare(quantity);
     }
 
+    public Name name() {
+        return name;
+    }
+
 }

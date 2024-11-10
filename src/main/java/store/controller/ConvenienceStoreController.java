@@ -11,6 +11,7 @@ import store.domain.product.Product;
 import store.domain.promotion.PromotionResult;
 import store.domain.store.Staff;
 import store.view.dto.PurchaseInfo;
+import store.view.dto.StockView;
 import store.view.setup.StoreDataProvider;
 import store.view.user.InputView;
 import store.view.user.OutputView;
@@ -44,12 +45,23 @@ public class ConvenienceStoreController {
         Membership membership = new Membership(MEMBERSHIP_DISCOUNT_PERCENTAGE, MEMBERSHIP_LIMIT_AMOUNT);
         do {
             LocalDateTime now = DateTimes.now();
-            ShoppingCart shoppingCart = trySelectProducts();
-            OrderSheets orderSheets = checkPromotions(shoppingCart, now);
+            printConvenienceStart();
+            OrderSheets orderSheets = order(now);
             convenienceStore.updateStocks(orderSheets, now);
             Price membershipDiscount = tryMembershipDiscount(membership, orderSheets);
             outputView.printOrderSheet(orderSheets, membershipDiscount);
         } while (keepBuying());
+    }
+
+    private void printConvenienceStart() {
+        outputView.printWelcome();
+        List<StockView> currentStockInfos = convenienceStore.getCurrentStockInfo();
+        outputView.printProductStocks(currentStockInfos);
+    }
+
+    private OrderSheets order(LocalDateTime orderDateTime) {
+        ShoppingCart shoppingCart = trySelectProducts();
+        return checkPromotions(shoppingCart, orderDateTime);
     }
 
     private ShoppingCart trySelectProducts() {

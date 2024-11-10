@@ -51,4 +51,16 @@ public class Stock {
         return Objects.hashCode(quantity);
     }
 
+    @Override
+    public String toString() {
+        if (quantity == MIN_QUANTITY) {
+            return "재고 없음";
+        }
+        return quantity + "개";
+    }
+
+    public Stock getStock() {
+        return new Stock(quantity);
+    }
+
 }

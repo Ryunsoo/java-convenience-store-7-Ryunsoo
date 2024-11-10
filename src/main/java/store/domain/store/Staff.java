@@ -4,13 +4,12 @@ import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.Promotions;
 import store.domain.stock.ProductStocks;
-import store.view.setup.StoreDataProvider;
 import store.view.dto.ProductData;
 import store.view.dto.PromotionData;
+import store.view.setup.StoreDataProvider;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -24,18 +23,17 @@ public class Staff {
 
     public Products prepareProducts() {
         StockInfos stockInfos = getStockInfos();
-        Set<Product> allProducts = getAllProducts();
-
-        Map<Product, ProductStocks> products = allProducts.stream()
+        Map<Product, ProductStocks> products = getAllProducts().stream()
                 .collect(Collectors.toMap(Function.identity(), stockInfos::findStocks));
         return new Products(products);
     }
 
-    private Set<Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         return storeDataProvider.provideProductData()
                 .stream()
                 .map(ProductData::getProduct)
-                .collect(Collectors.toSet());
+                .distinct()
+                .toList();
     }
 
     private StockInfos getStockInfos() {
