@@ -1,4 +1,4 @@
-package store.view;
+package store.view.setup;
 
 import store.exception.StoreSetUpFailException;
 

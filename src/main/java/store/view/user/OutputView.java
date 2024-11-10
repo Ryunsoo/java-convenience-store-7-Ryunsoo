@@ -1,7 +1,7 @@
-package store.view;
+package store.view.user;
 
-import store.domain.PurchaseResult;
-import store.domain.PurchaseResults;
+import store.domain.order.OrderSheet;
+import store.domain.order.OrderSheets;
 import store.domain.product.Price;
 
 import java.util.List;
@@ -17,19 +17,19 @@ public class OutputView {
         System.out.println();
     }
 
-    public void printReceipt(PurchaseResults purchaseResults, Price membershipDiscount) {
+    public void printReceipt(OrderSheets orderSheets, Price membershipDiscount) {
         System.out.println("===========W 편의점=============");
-        printPurchaseList(purchaseResults);
+        printPurchaseList(orderSheets);
         System.out.println("===========증\t정=============");
-        printGetFreeList(purchaseResults);
+        printGetFreeList(orderSheets);
         System.out.println("==============================");
-        printAmountDetails(purchaseResults, membershipDiscount);
+        printAmountDetails(orderSheets, membershipDiscount);
         System.out.println();
     }
 
-    private void printPurchaseList(PurchaseResults purchaseResults) {
+    private void printPurchaseList(OrderSheets orderSheets) {
         System.out.println("상품명\t\t수량\t금액");
-        List<PurchaseResult> results = purchaseResults.getPurchaseResults();
+        List<OrderSheet> results = orderSheets.getOrderSheets();
         results.forEach(purchaseResult -> {
             System.out.printf("%s\t\t%d \t%s",
                     purchaseResult.productName(),
@@ -39,21 +39,21 @@ public class OutputView {
         });
     }
 
-    private void printGetFreeList(PurchaseResults purchaseResults) {
-        List<PurchaseResult> results = purchaseResults.onlyAppliedPromotion();
+    private void printGetFreeList(OrderSheets orderSheets) {
+        List<OrderSheet> results = orderSheets.onlyAppliedPromotion();
         results.forEach(purchaseResult -> {
             System.out.printf("%s\t\t%d", purchaseResult.productName(), purchaseResult.getFreeQuantity());
             System.out.println();
         });
     }
 
-    private void printAmountDetails(PurchaseResults purchaseResults, Price membershipDiscount) {
-        Price totalAmount = purchaseResults.totalAmount();
-        Price promotionAmount = purchaseResults.promotionAmount();
+    private void printAmountDetails(OrderSheets orderSheets, Price membershipDiscount) {
+        Price totalAmount = orderSheets.totalAmount();
+        Price promotionAmount = orderSheets.promotionAmount();
         Price subtractPromotion = totalAmount.subtract(promotionAmount);
         Price payAmount = subtractPromotion.subtract(membershipDiscount);
 
-        System.out.printf("총구매액\t\t%d\t%s", purchaseResults.totalQuantity(), totalAmount);
+        System.out.printf("총구매액\t\t%d\t%s", orderSheets.totalQuantity(), totalAmount);
         System.out.println();
         System.out.printf("행사할인\t\t\t-%s", promotionAmount);
         System.out.println();

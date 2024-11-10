@@ -1,7 +1,7 @@
-package store.view;
+package store.view.user;
 
 import camp.nextstep.edu.missionutils.Console;
-import store.view.dto.YN;
+import store.domain.common.YN;
 import store.domain.product.Product;
 import store.view.dto.PurchaseInfo;
 

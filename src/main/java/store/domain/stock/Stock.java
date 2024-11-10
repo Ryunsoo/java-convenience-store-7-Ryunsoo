@@ -19,12 +19,23 @@ public class Stock {
         }
     }
 
+    public static Stock empty() {
+        return new Stock(MIN_QUANTITY);
+    }
+
     public int available(int quantity) {
         return Math.min(this.quantity, quantity);
     }
 
     public void deduct(int quantity) {
+        if (quantity > this.quantity) {
+            throw new RuntimeException("차감할 수 있는 재고 수량을 초과했습니다.");
+        }
         this.quantity -= quantity;
+    }
+
+    public boolean hasMore(int quantity) {
+        return this.quantity > quantity;
     }
 
     @Override

@@ -37,15 +37,12 @@ public class Promotion {
         return period.within(dateTime);
     }
 
-    public PromotionResult checkDiscount(int quantity) {
-        BenefitResult benefitResult = benefit.compare(quantity);
-        int unapplyQuantity = benefitResult.getUnapplyQuantity();
+    public boolean canGetOneMore(int quantity) {
+        return benefit.isApplyQuantity(quantity);
+    }
 
-        if (benefit.isApplyQuantity(unapplyQuantity)) {
-            return PromotionResult.canAddMore(benefitResult);
-        }
-
-        return PromotionResult.complete(benefitResult);
+    public BenefitResult getBenefitResult(int quantity) {
+        return benefit.compare(quantity);
     }
 
 }

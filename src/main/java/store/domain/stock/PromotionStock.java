@@ -1,44 +1,38 @@
 package store.domain.stock;
 
+import store.domain.promotion.BenefitResult;
 import store.domain.promotion.Promotion;
+import store.domain.promotion.StockCheckResult;
 
 import java.time.LocalDateTime;
 
-public class PromotionStock {
+public class PromotionStock extends ProductStock {
 
     private final Promotion promotion;
-    private final Stock stock;
 
-    public PromotionStock(Promotion promotion, Stock stock) {
+    public PromotionStock(Stock stock, Promotion promotion) {
+        super(stock);
         this.promotion = promotion;
-        this.stock = stock;
-    }
-
-    public static PromotionStock convert(ProductStock productStock) {
-        return new PromotionStock(productStock.getPromotion(), productStock.getStock());
     }
 
     public boolean inPromotion(LocalDateTime dateTime) {
         return promotion.onGoing(dateTime);
     }
 
-    public Stock getStock() {
-        return stock;
-    }
+    public StockCheckResult check(int quantity) {
+        BenefitResult benefitResult = checkPromotion(quantity);
+        int generalQuantity = quantity - benefitResult.getQuantity();
 
-    public Promotion getPromotion() {
-        return promotion;
-    }
-
-    public int availableQuantity(int quantity) {
-        return stock.available(quantity);
-    }
-
-    public void deduct(int quantity) {
-        if (stock.available(quantity) != quantity) {
-            throw new RuntimeException("차감할 수 있는 재고 수량을 초과했습니다.");
+        if (stock.hasMore(quantity) && promotion.canGetOneMore(generalQuantity)) {
+            return StockCheckResult.morePromotion(benefitResult, generalQuantity);
         }
-        stock.deduct(quantity);
+
+        return StockCheckResult.withPromotion(benefitResult, generalQuantity);
+    }
+
+    private BenefitResult checkPromotion(int quantity) {
+        int availableQuantity = stock.available(quantity);
+        return promotion.getBenefitResult(availableQuantity);
     }
 
 }

@@ -1,4 +1,4 @@
-package store.view.dto;
+package store.domain.common;
 
 import java.util.Arrays;
 

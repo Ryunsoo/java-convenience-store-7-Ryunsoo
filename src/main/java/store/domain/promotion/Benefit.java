@@ -21,8 +21,7 @@ public class Benefit {
     public BenefitResult compare(int quantity) {
         int benefitUnitQuantity = applyQuantity + GET_FREE_QUANTITY;
         int applyCount = Math.divideExact(quantity, benefitUnitQuantity);
-        int remain = quantity - (applyCount * benefitUnitQuantity);
-        return new BenefitResult(applyCount * applyQuantity, applyCount * GET_FREE_QUANTITY, remain);
+        return new BenefitResult(applyCount * applyQuantity, applyCount * GET_FREE_QUANTITY);
     }
 
     public boolean isApplyQuantity(int quantity) {

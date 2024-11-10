@@ -1,14 +1,10 @@
 package store.domain.stock;
 
-import store.domain.promotion.Promotion;
+public abstract class ProductStock {
 
-public class ProductStock {
+    protected final Stock stock;
 
-    private final Promotion promotion;
-    private final Stock stock;
-
-    public ProductStock(Promotion promotion, Stock stock) {
-        this.promotion = promotion;
+    protected ProductStock(Stock stock) {
         this.stock = stock;
     }
 
@@ -16,12 +12,10 @@ public class ProductStock {
         return stock.available(quantity);
     }
 
-    public Promotion getPromotion() {
-        return promotion;
-    }
-
-    public Stock getStock() {
-        return stock;
+    public int deductMaximum(int quantity) {
+        int deductQuantity = this.availableQuantity(quantity);
+        stock.deduct(deductQuantity);
+        return deductQuantity;
     }
 
 }
