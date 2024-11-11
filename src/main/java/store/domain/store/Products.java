@@ -24,7 +24,7 @@ public class Products {
         return product;
     }
 
-    public Product find(Name productName) {
+    private Product find(Name productName) {
         return productStocks.keySet().stream()
                 .filter(product -> product.is(productName))
                 .findAny()
