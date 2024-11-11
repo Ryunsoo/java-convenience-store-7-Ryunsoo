@@ -2,8 +2,8 @@ package store.domain.promotion;
 
 public class BenefitResult {
 
-    private int applyQuantity;
-    private int freeQuantity;
+    private final int applyQuantity;
+    private final int freeQuantity;
 
     public BenefitResult(int applyQuantity, int freeQuantity) {
         validate(applyQuantity, freeQuantity);
