@@ -59,10 +59,7 @@ class PromotionTest {
     @CsvSource(value = {"프로모션, true", "행사, false"})
     void comparePromotionName(String name, boolean expected) {
         Name promotionName = new Name("프로모션");
-        Benefit benefit = new Benefit(1);
-        Period period = Period.between(LocalDate.now(), LocalDate.now().plusDays(10));
-
-        Promotion promotion = new Promotion(promotionName, benefit, period);
+        Promotion promotion = createPromotion(promotionName);
 
         assertThat(promotion.is(new Name(name))).isEqualTo(expected);
     }
@@ -81,6 +78,10 @@ class PromotionTest {
         assertThat(promotion.onGoing(dateTime)).isEqualTo(expected);
     }
 
+    private static Promotion createPromotion(Name name) {
+        return new Promotion(name, DEFAULT_BENEFIT, DEFAULT_PERIOD);
+    }
+    
     private static Promotion createPromotion(Period period) {
         return new Promotion(DEFAULT_NAME, DEFAULT_BENEFIT, period);
     }
