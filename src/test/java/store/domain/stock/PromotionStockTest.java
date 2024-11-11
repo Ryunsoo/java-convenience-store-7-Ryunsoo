@@ -33,4 +33,18 @@ class PromotionStockTest {
         assertThat(promotionStock.availableQuantity(purchaseQuantity)).isEqualTo(availableQuantity);
     }
 
+    @DisplayName("차감 가능한 최대 수량만큼 차감 후 차감 수량을 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"10, 5, 5", "5, 5, 5", "5, 10, 5", "0, 5, 0"})
+    void deductAvailableQuantityAndReturn(int stockQuantity, int purchaseQuantity, int deductQuantity) {
+        Stock stock = new Stock(stockQuantity);
+        PromotionStock promotionStock = new PromotionStock(stock, defaultPromotion);
+
+        int deducted = promotionStock.deductMaximum(purchaseQuantity);
+        int remainStockQuantity = stockQuantity - deductQuantity;
+
+        assertThat(deducted).isEqualTo(deductQuantity);
+        assertThat(stock.getStock()).isEqualTo(new Stock(remainStockQuantity));
+    }
+
 }
