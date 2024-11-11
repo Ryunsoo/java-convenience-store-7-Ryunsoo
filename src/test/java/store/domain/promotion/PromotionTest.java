@@ -9,12 +9,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 import store.domain.common.Name;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PromotionTest {
+
+    private static final Name DEFAULT_NAME = new Name("프로모션");
+    private static final Benefit DEFAULT_BENEFIT = new Benefit(2);
+    private static final Period DEFAULT_PERIOD = Period.between(LocalDate.now(), LocalDate.now().plusDays(10));
 
     @DisplayName("프로모션은 이름, 혜택, 적용 기간을 갖는다.")
     @Test
@@ -59,6 +65,24 @@ class PromotionTest {
         Promotion promotion = new Promotion(promotionName, benefit, period);
 
         assertThat(promotion.is(new Name(name))).isEqualTo(expected);
+    }
+
+    @DisplayName("프로모션이 적용되는 날짜/시간이면 true, 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"2024-11-01, true", "2024-12-01, false"})
+    void compareDateTimeWithPeriod(String dateTimeStr, boolean expected) {
+        Period period = Period.between(LocalDate.of(2024, 11, 1),
+                LocalDate.of(2024, 11, 30));
+        Promotion promotion = createPromotion(period);
+
+        LocalDateTime dateTime = LocalDate.parse(dateTimeStr, DateTimeFormatter.ISO_LOCAL_DATE)
+                .atStartOfDay();
+
+        assertThat(promotion.onGoing(dateTime)).isEqualTo(expected);
+    }
+
+    private static Promotion createPromotion(Period period) {
+        return new Promotion(DEFAULT_NAME, DEFAULT_BENEFIT, period);
     }
 
 }
