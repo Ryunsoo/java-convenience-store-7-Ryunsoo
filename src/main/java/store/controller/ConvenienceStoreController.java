@@ -5,11 +5,11 @@ import store.domain.common.YN;
 import store.domain.membership.Membership;
 import store.domain.order.OrderSheet;
 import store.domain.order.OrderSheets;
-import store.domain.store.ConvenienceStore;
-import store.domain.store.ShoppingCart;
 import store.domain.product.Price;
 import store.domain.product.Product;
 import store.domain.promotion.PromotionResult;
+import store.domain.store.ConvenienceStore;
+import store.domain.store.ShoppingCart;
 import store.domain.store.Staff;
 import store.view.dto.PurchaseInfo;
 import store.view.dto.StockView;
@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ConvenienceStoreController {
 
@@ -49,9 +50,9 @@ public class ConvenienceStoreController {
             printConvenienceStart();
             OrderSheets orderSheets = order(now);
             convenienceStore.updateStocks(orderSheets, now);
-            Price membershipDiscount = tryMembershipDiscount(membership, orderSheets);
+            Price membershipDiscount = tryGetInput(() -> tryMembershipDiscount(membership, orderSheets));
             outputView.printOrderSheet(orderSheets, membershipDiscount);
-        } while (keepBuying());
+        } while (tryGetInput(this::keepBuying));
     }
 
     private void printConvenienceStart() {
@@ -61,17 +62,8 @@ public class ConvenienceStoreController {
     }
 
     private OrderSheets order(LocalDateTime orderDateTime) {
-        ShoppingCart shoppingCart = trySelectProducts();
+        ShoppingCart shoppingCart = tryGetInput(this::selectProducts);
         return checkPromotions(shoppingCart, orderDateTime);
-    }
-
-    private ShoppingCart trySelectProducts() {
-        try {
-            return selectProducts();
-        } catch (IllegalArgumentException ex) {
-            outputView.printInputErrorMessage(ex.getMessage());
-            return trySelectProducts();
-        }
     }
 
     private ShoppingCart selectProducts() {
@@ -101,10 +93,10 @@ public class ConvenienceStoreController {
         PromotionResult checkResult = convenienceStore.applyPromotion(product, orderQuantity, dateTime);
 
         if (checkResult.canAddMore()) {
-            return askAddOneMore( product, checkResult);
+            return tryGetInput(() -> askAddOneMore(product, checkResult));
         }
         if (checkResult.shouldCheckRemove()) {
-            return askBuyOnlyPromotion(product, checkResult);
+            return tryGetInput(() -> askBuyOnlyPromotion(product, checkResult));
         }
         return checkResult.getOrderSheet(product);
     }
@@ -137,6 +129,15 @@ public class ConvenienceStoreController {
     private boolean keepBuying() {
         YN answer = inputView.askStopPurchase();
         return answer.yes();
+    }
+
+    private <T> T tryGetInput(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (IllegalArgumentException ex) {
+            outputView.printInputErrorMessage(ex.getMessage());
+            return tryGetInput(supplier);
+        }
     }
 
 }
