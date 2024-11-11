@@ -2,6 +2,8 @@ package store.domain.promotion;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -35,6 +37,15 @@ class BenefitTest {
         BenefitResult result = benefit.compare(quantity);
         assertThat(result.getApplyQuantity()).isEqualTo(expected.getApplyQuantity());
         assertThat(result.getFreeQuantity()).isEqualTo(expected.getFreeQuantity());
+    }
+
+    @DisplayName("혜택 적용 수량을 비교해 같으면 true, 다르면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"2, true", "1, false"})
+    void compareApplyQuantity(int compareQuantity, boolean expected) {
+        Benefit benefit = new Benefit(2);
+
+        assertThat(benefit.isApplyQuantity(compareQuantity)).isEqualTo(expected);
     }
 
 }
