@@ -6,8 +6,8 @@ import store.domain.stock.PromotionStock;
 
 public class StockInfo {
 
-    private Product product;
-    private ProductStock productStock;
+    private final Product product;
+    private final ProductStock productStock;
 
     public StockInfo(Product product, ProductStock productStock) {
         this.product = product;
