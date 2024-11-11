@@ -27,6 +27,9 @@ public class Product {
     }
 
     public Price calculatePrice(int quantity) {
+        if (quantity < 0) {
+            throw new UnsupportedOperationException("수량이 올바르지 않습니다.");
+        }
         return price.multiply(quantity);
     }
 

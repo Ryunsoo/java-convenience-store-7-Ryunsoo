@@ -84,4 +84,31 @@ class ProductTest {
         assertThat(product.is(new Name(name))).isEqualTo(expected);
     }
 
+    @DisplayName("특정 수량만큼의 상품 가격을 반환한다.")
+    @Test
+    void calculateProductPriceWithQuantity() {
+        Name productName = new Name("상품");
+        Price productPrice = Price.valueOf(1000);
+        Product product = new Product(productName, productPrice);
+
+        int quantity = 5;
+
+        Price expected = Price.valueOf(5000);
+        assertThat(product.calculatePrice(quantity)).isEqualTo(expected);
+    }
+
+    @DisplayName("상품 가격 계산 시 수량이 0보다 작으면 예외를 던진다.")
+    @Test
+    void cannotCalculatePriceWithQuantityBelowZero() {
+        Name productName = new Name("상품");
+        Price productPrice = Price.valueOf(1000);
+        Product product = new Product(productName, productPrice);
+
+        int invalidQuantity = -1;
+
+        assertThatThrownBy(() -> product.calculatePrice(invalidQuantity))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("수량이 올바르지 않습니다.");
+    }
+
 }
