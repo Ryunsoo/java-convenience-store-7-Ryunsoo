@@ -47,6 +47,9 @@ public class PromotionResult {
     }
 
     public OrderSheet getOrderSheetWithOneMore(Product product) {
+        if (!canAddMore()) {
+            throw new UnsupportedOperationException("증정 수량을 추가할 수 없습니다.");
+        }
         return new OrderSheet(product, benefitResult.getApplyQuantity() + generalQuantity,
                 benefitResult.getFreeQuantity() + 1, 0);
     }

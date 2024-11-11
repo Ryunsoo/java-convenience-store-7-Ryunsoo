@@ -9,6 +9,7 @@ import store.domain.product.Price;
 import store.domain.product.Product;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static store.domain.common.OrderStatus.DONE;
 
 class PromotionResultTest {
@@ -99,6 +100,19 @@ class PromotionResultTest {
         assertThat(orderSheet).extracting("benefitQuantity").isEqualTo(6);
         assertThat(orderSheet).extracting("freeQuantity").isEqualTo(3);
         assertThat(orderSheet).extracting("generalQuantity").isEqualTo(0);
+    }
+
+    @DisplayName("증정 수량을 추가 시 상태가 ADD가 아니면 예외를 던진다.")
+    @Test
+    void CannotReturnOrderSheetWithOneMoreIfStatusNotADD() {
+        BenefitResult benefitResult = new BenefitResult(4, 2);
+        int generalQuantity = 2;
+
+        PromotionResult promotionResult = PromotionResult.withPromotion(benefitResult, generalQuantity);
+
+        assertThatThrownBy(() -> promotionResult.getOrderSheetWithOneMore(defaultProduct))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("증정 수량을 추가할 수 없습니다.");
     }
 
     @DisplayName("일반 결제 수량은 제외하여 주문서를 생성, 반환한다.")
