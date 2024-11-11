@@ -78,12 +78,30 @@ class PromotionTest {
         assertThat(promotion.onGoing(dateTime)).isEqualTo(expected);
     }
 
-    private static Promotion createPromotion(Name name) {
+    @DisplayName("혜택과 수량을 통해 적용 수량과 무료 증정 수량을 반환한다.")
+    @Test
+    void returnBenefitResultByBenefit() {
+        Benefit benefit = new Benefit(2);
+        Promotion promotion = createPromotion(benefit);
+        int quantity = 7;
+
+        BenefitResult expected = new BenefitResult(4, 2);
+
+        BenefitResult result = promotion.getBenefitResult(quantity);
+        assertThat(result.getApplyQuantity()).isEqualTo(expected.getApplyQuantity());
+        assertThat(result.getFreeQuantity()).isEqualTo(expected.getFreeQuantity());
+    }
+
+    private Promotion createPromotion(Name name) {
         return new Promotion(name, DEFAULT_BENEFIT, DEFAULT_PERIOD);
     }
-    
-    private static Promotion createPromotion(Period period) {
+
+    private Promotion createPromotion(Period period) {
         return new Promotion(DEFAULT_NAME, DEFAULT_BENEFIT, period);
+    }
+
+    private Promotion createPromotion(Benefit benefit) {
+        return new Promotion(DEFAULT_NAME, benefit, DEFAULT_PERIOD);
     }
 
 }
