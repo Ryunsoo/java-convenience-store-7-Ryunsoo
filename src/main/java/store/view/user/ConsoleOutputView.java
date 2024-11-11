@@ -40,10 +40,10 @@ public class ConsoleOutputView implements OutputView {
 
     @Override
     public void printPurchaseList(OrderSheets orderSheets) {
-        System.out.println("상품명\t\t수량\t금액");
+        System.out.println("상품명     수량      \t\t금액");
         List<OrderSheet> results = orderSheets.getOrderSheets();
         results.forEach(purchaseResult -> {
-            System.out.printf("%s\t\t%d \t%s",
+            System.out.printf("%s       %d      %s",
                     purchaseResult.productName(),
                     purchaseResult.totalQuantity(),
                     purchaseResult.totalAmount());
@@ -54,7 +54,7 @@ public class ConsoleOutputView implements OutputView {
     private void printGetFreeList(OrderSheets orderSheets) {
         List<OrderSheet> results = orderSheets.onlyAppliedPromotion();
         results.forEach(purchaseResult -> {
-            System.out.printf("%s\t\t%d", purchaseResult.productName(), purchaseResult.getFreeQuantity());
+            System.out.printf("%s       %d", purchaseResult.productName(), purchaseResult.getFreeQuantity());
             System.out.println();
         });
     }
@@ -72,12 +72,12 @@ public class ConsoleOutputView implements OutputView {
     }
 
     private void printTotal(int totalQuantity, Price totalAmount) {
-        System.out.printf("총구매액\t\t%d\t%s", totalQuantity, totalAmount);
+        System.out.printf("총구매액     %d      \t%s", totalQuantity, totalAmount);
         System.out.println();
     }
 
     private void printPromotionDiscount(Price amount) {
-        System.out.printf("행사할인\t\t\t-%s", amount);
+        System.out.printf("행사할인\t\t\t\t-%s", amount);
         System.out.println();
     }
 
@@ -87,7 +87,7 @@ public class ConsoleOutputView implements OutputView {
     }
 
     private void printPayAmount(Price amount) {
-        System.out.printf("내실돈\t\t\t %s", amount);
+        System.out.printf("내실돈\t\t\t\t%s", amount);
         System.out.println();
     }
 
