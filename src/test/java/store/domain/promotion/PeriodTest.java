@@ -4,9 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,6 +55,19 @@ class PeriodTest {
                 Arguments.of(LocalDate.of(2024, 11, 1), null),
                 Arguments.of(null, null)
         );
+    }
+
+    @DisplayName("기간에 속하는 날짜 시간이면 true, 속하지 않으면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"2024-11-01, true", "2024-12-01, false"})
+    void compareDateTimeWithPeriod(String dateTimeStr, boolean expected) {
+        Period period = Period.between(LocalDate.of(2024, 11, 1),
+                LocalDate.of(2024, 11, 30));
+
+        LocalDateTime dateTime = LocalDate.parse(dateTimeStr, DateTimeFormatter.ISO_LOCAL_DATE)
+                        .atStartOfDay();
+
+        assertThat(period.within(dateTime)).isEqualTo(expected);
     }
 
 }
