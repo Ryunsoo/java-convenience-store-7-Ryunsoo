@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import store.domain.common.Name;
 
@@ -70,6 +71,17 @@ class ProductTest {
                         new Product(new Name("상품1"), Price.valueOf(2000)),
                         new Product(new Name("상품2"), Price.valueOf(1000)))
         );
+    }
+
+    @DisplayName("해당 이름의 상품이면 true, 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"상품, true", "이름, false"})
+    void compareProductName(String name, boolean expected) {
+        Name productName = new Name("상품");
+        Price productPrice = Price.valueOf(1000);
+        Product product = new Product(productName, productPrice);
+
+        assertThat(product.is(new Name(name))).isEqualTo(expected);
     }
 
 }
