@@ -79,4 +79,25 @@ class PriceTest {
         assertThat(price.add(addPrice)).isEqualTo(expected);
     }
 
+    @DisplayName("금액에서 금액을 뺄 수 있다.")
+    @Test
+    void subtractPriceFromPrice() {
+        Price price = Price.valueOf(11000);
+        Price subtractPrice = Price.valueOf(1000);
+
+        Price expected = Price.valueOf(10000);
+        assertThat(price.subtract(subtractPrice)).isEqualTo(expected);
+    }
+
+    @DisplayName("금액에서 더 큰 금액을 빼면 예외를 던진다.")
+    @Test
+    void cannotSubtractGreaterPrice() {
+        Price price = Price.valueOf(1000);
+        Price subtractPrice = Price.valueOf(2000);
+
+        assertThatThrownBy(() -> price.subtract(subtractPrice))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("더 큰 금액을 뺄 수 없습니다.");
+    }
+
 }

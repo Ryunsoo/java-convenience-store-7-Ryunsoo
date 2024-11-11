@@ -51,6 +51,9 @@ public class Price implements Comparable<Price> {
     }
 
     public Price subtract(Price amount) {
+        if (amount.price.compareTo(this.price) > 0) {
+            throw new UnsupportedOperationException("더 큰 금액을 뺄 수 없습니다.");
+        }
         BigDecimal subtract = this.price.subtract(amount.price);
         return new Price(subtract);
     }
