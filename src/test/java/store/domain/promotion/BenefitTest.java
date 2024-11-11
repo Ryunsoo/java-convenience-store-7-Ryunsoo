@@ -24,4 +24,17 @@ class BenefitTest {
                 .hasMessage("혜택 적용 수량이 올바르지 않습니다.");
     }
 
+    @DisplayName("혜택 정보를 통해 혜택 적용 수량과 무료 증정 수량을 반환한다.")
+    @Test
+    void returnBenefitResultAfterCompareWithQuantity() {
+        Benefit benefit = new Benefit(2);
+        int quantity = 7;
+
+        BenefitResult expected = new BenefitResult(4, 2);
+
+        BenefitResult result = benefit.compare(quantity);
+        assertThat(result.getApplyQuantity()).isEqualTo(expected.getApplyQuantity());
+        assertThat(result.getFreeQuantity()).isEqualTo(expected.getFreeQuantity());
+    }
+
 }
