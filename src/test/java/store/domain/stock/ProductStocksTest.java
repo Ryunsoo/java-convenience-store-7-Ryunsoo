@@ -2,7 +2,6 @@ package store.domain.stock;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import store.domain.common.Name;
@@ -19,15 +18,14 @@ class ProductStocksTest {
 
     private Name defaultPromotionName;
     private Benefit defaultBenefit;
-    private Period defaultPeriod;
     private Promotion defaultPromotion;
 
     @BeforeEach
     void setup() {
         this.defaultPromotionName = new Name("프로모션");
         this.defaultBenefit = new Benefit(2);
-        this.defaultPeriod = Period.between(LocalDate.now(), LocalDate.now().plusDays(5));
-        this.defaultPromotion = new Promotion(defaultPromotionName, defaultBenefit, defaultPeriod);
+        Period period = Period.between(LocalDate.now(), LocalDate.now().plusDays(5));
+        this.defaultPromotion = new Promotion(defaultPromotionName, defaultBenefit, period);
     }
 
     @DisplayName("일반 재고와 프로모션 재고가 충분한지 확인한다.")
