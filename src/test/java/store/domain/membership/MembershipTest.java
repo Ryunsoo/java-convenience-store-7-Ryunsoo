@@ -34,4 +34,26 @@ class MembershipTest {
                 .hasMessage("멤버십 할인율이 유효하지 않습니다.");
     }
 
+    @DisplayName("멤버십 할인은 금액의 30프로이다.")
+    @Test
+    void calculateMembershipDiscount() {
+        Membership membership = new Membership(30, 8000);
+        Price price = Price.valueOf(5000);
+
+        Price discountPrice = membership.calculateDiscount(price);
+
+        assertThat(discountPrice).isEqualTo(Price.valueOf(1500));
+    }
+
+    @DisplayName("멤버십 할인은 일일 할인 가능 금액내에서 가능하다.")
+    @Test
+    void discountCannotBeOverOneDayLimit() {
+        Membership membership = new Membership(30, 1000);
+        Price price = Price.valueOf(5000);
+
+        Price discountPrice = membership.calculateDiscount(price);
+
+        assertThat(discountPrice).isEqualTo(Price.valueOf(1000));
+    }
+
 }

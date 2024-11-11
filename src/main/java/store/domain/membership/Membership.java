@@ -20,8 +20,9 @@ public class Membership {
     public Price calculateDiscount(Price amount) {
         Price thirtyPercent = calculatePercentage(amount);
         if (thirtyPercent.compareTo(oneDayLimit) > 0) {
-            deductOneDayLimit(oneDayLimit);
-            return oneDayLimit;
+            Price discount = oneDayLimit.getPrice();
+            deductOneDayLimit(discount);
+            return discount;
         }
         deductOneDayLimit(thirtyPercent);
         return thirtyPercent;

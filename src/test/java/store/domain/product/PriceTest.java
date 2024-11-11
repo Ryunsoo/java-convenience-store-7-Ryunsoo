@@ -17,8 +17,7 @@ class PriceTest {
     void createPriceWithValue() {
         Price price = Price.valueOf(1000);
 
-        BigDecimal expected = BigDecimal.valueOf(1000);
-        assertThat(price).extracting("price").isEqualTo(expected);
+        assertThat(price.getPrice()).isEqualTo(Price.valueOf(1000));
     }
 
     @DisplayName("가격이 0 미만일 경우 예외를 던진다.")

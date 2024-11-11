@@ -80,4 +80,9 @@ public class Price implements Comparable<Price> {
     public String toString() {
         return FORMATTER.format(price);
     }
+
+    public Price getPrice() {
+        return new Price(price);
+    }
+
 }
