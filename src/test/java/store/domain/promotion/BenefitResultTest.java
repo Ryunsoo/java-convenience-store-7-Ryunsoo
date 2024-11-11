@@ -31,4 +31,15 @@ class BenefitResultTest {
                 .hasMessage("혜택 적용 결과 수량이 유효하지 않습니다.");
     }
 
+    @DisplayName("적용 수량과 증정 수량을 더한 전체 혜택 수량을 반환한다.")
+    @Test
+    void returnAllBenefitQuantity() {
+        int applyQuantity = 4;
+        int freeQuantity = 2;
+
+        BenefitResult benefitResult = new BenefitResult(applyQuantity, freeQuantity);
+
+        assertThat(benefitResult.getQuantity()).isEqualTo(6);
+    }
+
 }
