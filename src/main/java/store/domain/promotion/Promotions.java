@@ -9,7 +9,6 @@ public class Promotions {
 
     private final List<Promotion> promotions;
 
-    // TODO 같은 이름의 프로모션은 추가될 수 없다.
     public Promotions(List<Promotion> promotions) {
         this.promotions = promotions;
     }
