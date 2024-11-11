@@ -18,8 +18,8 @@ public class PromotionResult {
         this.generalQuantity = generalQuantity;
     }
 
-    public static PromotionResult withoutPromotion(int quantity) {
-        return new PromotionResult(DONE, new BenefitResult(0, 0), quantity);
+    public static PromotionResult withoutPromotion(int generalQuantity) {
+        return new PromotionResult(DONE, new BenefitResult(0, 0), generalQuantity);
     }
 
     public static PromotionResult morePromotion(BenefitResult benefitResult, int generalQuantity) {
