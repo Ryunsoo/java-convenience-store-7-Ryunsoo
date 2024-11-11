@@ -1,10 +1,10 @@
 package store.domain.promotion;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import store.domain.common.Name;
 
@@ -46,6 +46,19 @@ class PromotionTest {
                         Period.between(LocalDate.now(), LocalDate.now().plusDays(10))),
                 Arguments.of(new Name("반짝할인"), new Benefit(1), null)
         );
+    }
+
+    @DisplayName("해당 이름의 프로모션이면 true, 아니면 false를 반환한다.")
+    @ParameterizedTest
+    @CsvSource(value = {"프로모션, true", "행사, false"})
+    void comparePromotionName(String name, boolean expected) {
+        Name promotionName = new Name("프로모션");
+        Benefit benefit = new Benefit(1);
+        Period period = Period.between(LocalDate.now(), LocalDate.now().plusDays(10));
+
+        Promotion promotion = new Promotion(promotionName, benefit, period);
+
+        assertThat(promotion.is(new Name(name))).isEqualTo(expected);
     }
 
 }
