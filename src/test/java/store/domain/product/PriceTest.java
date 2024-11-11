@@ -65,7 +65,7 @@ class PriceTest {
         Price price = Price.valueOf(1000);
 
         assertThatThrownBy(() -> price.multiply(-1))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("가격에 0보다 작은 수를 곱할 수 없습니다.");
     }
 

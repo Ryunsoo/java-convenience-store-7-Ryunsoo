@@ -41,7 +41,7 @@ public class Price implements Comparable<Price> {
 
     private void validateMultiplyNumber(BigDecimal decimal) {
         if (decimal.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("가격에 0보다 작은 수를 곱할 수 없습니다.");
+            throw new UnsupportedOperationException("가격에 0보다 작은 수를 곱할 수 없습니다.");
         }
     }
 
