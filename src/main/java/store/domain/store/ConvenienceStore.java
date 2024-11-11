@@ -1,12 +1,10 @@
-package store.controller;
+package store.domain.store;
 
 import store.domain.common.Name;
 import store.domain.order.OrderSheets;
 import store.domain.product.Product;
 import store.domain.promotion.PromotionResult;
 import store.domain.stock.ProductStocks;
-import store.domain.store.Products;
-import store.domain.store.Staff;
 import store.view.dto.PurchaseInfo;
 import store.view.dto.StockView;
 

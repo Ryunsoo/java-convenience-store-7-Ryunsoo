@@ -5,6 +5,7 @@ import store.domain.common.YN;
 import store.domain.membership.Membership;
 import store.domain.order.OrderSheet;
 import store.domain.order.OrderSheets;
+import store.domain.store.ConvenienceStore;
 import store.domain.store.ShoppingCart;
 import store.domain.product.Price;
 import store.domain.product.Product;
