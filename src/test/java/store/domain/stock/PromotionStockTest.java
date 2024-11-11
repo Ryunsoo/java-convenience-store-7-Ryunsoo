@@ -47,4 +47,6 @@ class PromotionStockTest {
         assertThat(stock.getStock()).isEqualTo(new Stock(remainStockQuantity));
     }
 
+    // TODO
+
 }
