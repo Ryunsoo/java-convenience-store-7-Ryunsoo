@@ -28,14 +28,21 @@ public class Price implements Comparable<Price> {
         }
     }
 
-    public Price multiple(int number) {
+    public Price multiply(int number) {
         return multiply(BigDecimal.valueOf(number));
     }
 
     public Price multiply(BigDecimal decimal) {
+        validateMultiplyNumber(decimal);
         BigDecimal multiply = price.multiply(decimal);
         BigDecimal rounded = multiply.setScale(0, RoundingMode.HALF_UP);
         return new Price(rounded);
+    }
+
+    private void validateMultiplyNumber(BigDecimal decimal) {
+        if (decimal.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("가격에 0보다 작은 수를 곱할 수 없습니다.");
+        }
     }
 
     public Price add(Price price) {

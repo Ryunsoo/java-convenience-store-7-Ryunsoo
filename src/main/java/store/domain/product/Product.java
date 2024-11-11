@@ -27,7 +27,7 @@ public class Product {
     }
 
     public Price calculatePrice(int quantity) {
-        return price.multiple(quantity);
+        return price.multiply(quantity);
     }
 
     @Override

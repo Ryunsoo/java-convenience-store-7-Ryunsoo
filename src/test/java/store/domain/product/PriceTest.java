@@ -39,4 +39,34 @@ class PriceTest {
         assertThat(price1.equals(price2)).isEqualTo(expected);
     }
 
+    @DisplayName("입력받은 수와 곱하기한 금액을 반환한다.")
+    @Test
+    void returnPriceWhenMultiply() {
+        Price price = Price.valueOf(1000);
+        int number = 3;
+
+        Price expected = Price.valueOf(3000);
+        assertThat(price.multiply(number)).isEqualTo(expected);
+    }
+
+    @DisplayName("입력받은 소수와 곱하기하여 반올림한 금액을 반환한다.")
+    @Test
+    void returnRoundingPriceWhenMultiply() {
+        Price price = Price.valueOf(1555);
+        BigDecimal decimal = BigDecimal.valueOf(0.3);
+
+        Price expected = Price.valueOf(467);
+        assertThat(price.multiply(decimal)).isEqualTo(expected);
+    }
+
+    @DisplayName("곱할 숫자가 0보다 작으면 예외를 던진다.")
+    @Test
+    void cannotMultiplyWithNegativeValue() {
+        Price price = Price.valueOf(1000);
+
+        assertThatThrownBy(() -> price.multiply(-1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("가격에 0보다 작은 수를 곱할 수 없습니다.");
+    }
+
 }
