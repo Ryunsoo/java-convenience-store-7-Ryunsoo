@@ -31,7 +31,7 @@ public class Products {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
     }
 
-    public boolean hasStocks(Product product, int quantity) {
+    private boolean hasStocks(Product product, int quantity) {
         ProductStocks stocks = productStocks.get(product);
         return stocks.hasEnough(quantity);
     }
