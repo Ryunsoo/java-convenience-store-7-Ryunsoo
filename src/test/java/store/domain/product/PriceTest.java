@@ -69,4 +69,14 @@ class PriceTest {
                 .hasMessage("가격에 0보다 작은 수를 곱할 수 없습니다.");
     }
 
+    @DisplayName("금액과 금액을 더할 수 있다.")
+    @Test
+    void addPriceToPrice() {
+        Price price = Price.valueOf(1000);
+        Price addPrice = Price.valueOf(11000);
+
+        Price expected = Price.valueOf(12000);
+        assertThat(price.add(addPrice)).isEqualTo(expected);
+    }
+
 }
