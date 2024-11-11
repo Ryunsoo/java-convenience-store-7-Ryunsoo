@@ -8,10 +8,9 @@ import store.view.dto.ProductData;
 import store.view.dto.PromotionData;
 import store.view.setup.StoreDataProvider;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Staff {
 
@@ -23,12 +22,16 @@ public class Staff {
 
     public Products prepareProducts() {
         StockInfos stockInfos = getStockInfos();
-        Map<Product, ProductStocks> products = getAllProducts().stream()
-                .collect(Collectors.toMap(Function.identity(), stockInfos::findStocks));
+        List<Product> allProducts = getAllProducts();
+
+        Map<Product, ProductStocks> products = new LinkedHashMap<>();
+        for (Product product : allProducts) {
+            products.put(product, stockInfos.findStocks(product));
+        }
         return new Products(products);
     }
 
-    public List<Product> getAllProducts() {
+    private List<Product> getAllProducts() {
         return storeDataProvider.provideProductData()
                 .stream()
                 .map(ProductData::getProduct)

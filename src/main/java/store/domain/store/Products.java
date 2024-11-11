@@ -3,7 +3,9 @@ package store.domain.store;
 import store.domain.common.Name;
 import store.domain.product.Product;
 import store.domain.stock.ProductStocks;
+import store.view.dto.StockView;
 
+import java.util.List;
 import java.util.Map;
 
 public class Products {
@@ -36,6 +38,13 @@ public class Products {
 
     public ProductStocks getStocks(Product product) {
         return productStocks.get(product);
+    }
+
+    public List<StockView> getStockViews() {
+        return productStocks.entrySet().stream()
+                .map((entry) -> entry.getValue().getStockViews(entry.getKey()))
+                .flatMap(List::stream)
+                .toList();
     }
 
 }

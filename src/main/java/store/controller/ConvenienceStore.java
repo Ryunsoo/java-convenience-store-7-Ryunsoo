@@ -11,28 +11,25 @@ import store.view.dto.PurchaseInfo;
 import store.view.dto.StockView;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ConvenienceStore {
 
-    private final List<Product> products;
-    private final Products stocks;
+    private final Products products;
 
     public ConvenienceStore(Staff staff) {
-        this.products = staff.getAllProducts();
-        this.stocks = staff.prepareProducts();
+        this.products = staff.prepareProducts();
     }
 
     public Product selectProduct(PurchaseInfo purchaseInfo) {
         Name productName = purchaseInfo.getProductName();
         int quantity = purchaseInfo.getQuantity();
-        return stocks.select(productName, quantity);
+        return products.select(productName, quantity);
     }
 
     public PromotionResult applyPromotion(Product product, int quantity, LocalDateTime dateTime) {
-        ProductStocks productsStocks = stocks.getStocks(product);
+        ProductStocks productsStocks = products.getStocks(product);
         return productsStocks.checkPromotion(dateTime, quantity);
     }
 
@@ -40,19 +37,13 @@ public class ConvenienceStore {
         Map<Product, Integer> finalQuantities = orderSheets.getFinalQuantities();
 
         for (Map.Entry<Product, Integer> entry : finalQuantities.entrySet()) {
-            ProductStocks productsStocks = stocks.getStocks(entry.getKey());
+            ProductStocks productsStocks = products.getStocks(entry.getKey());
             productsStocks.deduct(dateTime, entry.getValue());
         }
     }
 
     public List<StockView> getCurrentStockInfo() {
-        List<StockView> stockViews = new ArrayList<>();
-        for (Product product : products) {
-            ProductStocks productStocks = stocks.getStocks(product);
-            List<StockView> productStockView = productStocks.getStockViews(product);
-            stockViews.addAll(productStockView);
-        }
-        return stockViews;
+        return products.getStockViews();
     }
 
 }
