@@ -55,6 +55,9 @@ public class PromotionResult {
     }
 
     public OrderSheet getOrderSheetOnlyBenefit(Product product) {
+        if (!shouldCheckRemove()) {
+            throw new UnsupportedOperationException("일반 결제 수량을 제외할 수 없습니다.");
+        }
         return new OrderSheet(product, benefitResult.getApplyQuantity(),
                 benefitResult.getFreeQuantity(), 0);
     }

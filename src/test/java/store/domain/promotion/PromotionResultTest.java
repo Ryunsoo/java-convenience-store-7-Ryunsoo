@@ -130,4 +130,17 @@ class PromotionResultTest {
         assertThat(orderSheet).extracting("generalQuantity").isEqualTo(0);
     }
 
+    @DisplayName("일반 결제 수량 제외 시 상태가 REMOVE 가 아니면 예외를 던진다.")
+    @Test
+    void CannotReturnOrderSheetWithoutGeneralQuantityIfStatusNotREMOVE() {
+        BenefitResult benefitResult = new BenefitResult(4, 2);
+        int generalQuantity = 2;
+
+        PromotionResult promotionResult = PromotionResult.morePromotion(benefitResult, generalQuantity);
+
+        assertThatThrownBy(() -> promotionResult.getOrderSheetOnlyBenefit(defaultProduct))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("일반 결제 수량을 제외할 수 없습니다.");
+    }
+
 }
